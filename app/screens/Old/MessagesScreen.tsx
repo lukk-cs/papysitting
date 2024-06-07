@@ -62,7 +62,7 @@ const MessagesScreen = () => {
 
             {/* Boucle sur tous les items de oldNames */}
             {oldNames.map((item, index) => (
-              <View style={stylesDocuments.itemContainer}>
+              <View key={index} style={stylesDocuments.itemContainer}>
                 {oldImages[index] ? (
                   <Image source={{ uri: oldImages[index] }} style={{ width: 50, height: 50, borderRadius: 25 }} />
                 ) : (
@@ -72,13 +72,14 @@ const MessagesScreen = () => {
                 )}
                 <TouchableOpacity 
                   style={stylesDocuments.button} 
-                  onPress={() => navigation.navigate('ChatPage', { uid_young: uid_young, uid_old: item.uid_old })}
+                  onPress={() => navigation.navigate('ChatPage', { uid_young: uid_young, uid_old: item.uid_old, name_old : item.name_old })}
                 >
                   <Text style={stylesDocuments.buttonText}>{item.name_old}</Text>
                   <Ionicons name="chevron-forward-outline" size={24} color="black" />
                 </TouchableOpacity>
               </View>
             ))}
+
             
           </View>
         </SafeAreaProvider>

@@ -191,7 +191,7 @@ const Register = () => {
         />
         <View style={stylesRegister.buttonContainer}>
           <TouchableOpacity
-            onPress={() => { signUp(firstName, lastName, phone, email, address, lat, long, password, setLoading) }}
+            onPress={() => { signUp(firstName, lastName, phone, email, address, lat, long, password, setLoading, navigation) }}
             style={[styles.button, { opacity: buttonOpacity }]}
             disabled={!allFieldsFilled}
           >

@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MeetingOld from './app/screens/Other/MeetingOld';
 import Dashboard from './app/screens/Old/Dashboard';
-import Dashboard2 from './app/screens/Old/Dashboard2';
 import Dashboard3 from './app/screens/Old/Dashboard3';
 import Dashboard4 from './app/screens/Old/Dashboard4';
 import Dashboard5 from './app/screens/Old/Dashboard5';
@@ -20,7 +19,6 @@ import EditAnnonceOld from './app/screens/Other/EditAnnonceOld';
 import EMailSent from './app/screens/Other/EMailSent';
 import ForgotPassword from './app/screens/Other/ForgotPassword';
 import ChatPage from './app/screens/Old/ChatPage';
-import Calendar from './app/screens/Other/Calendar';
 import InitialLoading from './app/screens/All/InitialLoading';
 import Login from './app/screens/All/Login';
 import FirstPage from './app/screens/All/FirstPage';
@@ -39,6 +37,7 @@ import ProfileComplete from './app/screens/Old/ProfileComplete';
 import RIB from './app/screens/Old/RIB';
 import MeetingDetails from './app/screens/Old/MeetingDetails';
 import DeleteVisit from './app/screens/Old/DeleteVisit';
+import Dashboard2 from './app/screens/Old/Dashboard2';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,7 +71,7 @@ const App = () => {
               flexWrap: 'wrap' // Permettre le retour à la ligne
             }
           }}
-        />       
+        />   
         <Stack.Screen name="Dashboard3" component={Dashboard3}
           options={{ title: 'Quel type de demande\nsouhaitez-vous faire ?'
           , headerBackTitleVisible: false 
@@ -97,8 +96,14 @@ const App = () => {
         <Stack.Screen name="EditAnnonceOld" component={EditAnnonceOld} />
         <Stack.Screen name="EmailSent" component={EMailSent} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        <Stack.Screen name="ChatPage" component={ChatPage} options={{ title: 'Michèle', headerBackTitleVisible: false }}/>
-        <Stack.Screen name="Calendar" component={Calendar}/>
+        <Stack.Screen
+          name="ChatPage"
+          component={ChatPage}
+          options={({ route }) => ({
+            title: route.params?.recipientName ? route.params.recipientName : 'Chat',
+            headerBackTitleVisible: false
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

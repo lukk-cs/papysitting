@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, FlatList, KeyboardAvoidingView
 import { collection, query, where, getDocs, addDoc, orderBy, onSnapshot, doc } from 'firebase/firestore';
 import { FIREBASE_DB } from '../../../FirebaseConfig';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { getMessages, sendMessage, createConversation } from '../../functions/functionsMessages';
 
 interface IMessage {
@@ -18,8 +18,13 @@ const ChatPage = () => {
   const [messageText, setMessageText] = useState<string>('');
   const scrollViewRef = useRef<ScrollView>(null);
   const route = useRoute();
-  const { uid_young, uid_old } = route.params;
+  const { uid_young, uid_old, name_old } = route.params;
   const [conversationId, setConversationId] = useState<string | null>(null); // Variable d'état pour suivre l'ID de la conversation
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({ title: name_old });
+  }, [name_old]);
 
   useEffect(() => {
     const initializeChat = async () => {

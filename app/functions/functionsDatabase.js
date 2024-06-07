@@ -270,16 +270,9 @@ export const post = async (name, startDate, frequency, uid, chosenHours, setLoad
     try {
       const db = FIREBASE_DB;
       const annoncesCollection = collection(db, 'annoncesJeunes');
+
   
-      // First, delete existing documents associated with user's uid
-//      const userQuery = query(annoncesCollection, where('user', '==', uid));
-//      const userDocs = await getDocs(userQuery);
-  
-//      userDocs.forEach(async (doc) => {
-//        await deleteDoc(doc.ref);
-//      });
-  
-      // Now, add the new demand to the database
+      // First, add the new demand to the database
       await addDoc(annoncesCollection, {
         user: uid,
         begin: startDate,
@@ -287,6 +280,15 @@ export const post = async (name, startDate, frequency, uid, chosenHours, setLoad
         hours: chosenHours,
       });
   
+      // Then, delete existing documents associated with user's uid
+      const userQuery = query(annoncesCollection, where('user', '==', uid));
+      const userDocs = await getDocs(userQuery);
+  
+      userDocs.forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+      });
+
+
       console.log('Post successful!');
     } catch (error) {
       console.error(error);

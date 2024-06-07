@@ -33,6 +33,27 @@ const findExistingConversation = async (uid_young, uid_old) => {
     }
 };
 
+// Créer une nouvelle conversation
+export const createConversation = async (uid_young, uid_old) => {
+    try {
+        const db = FIREBASE_DB;
+        const conversationsRef = collection(db, 'conversations');
+        
+        // Ajouter un nouveau document à la collection conversations
+        const docRef = await addDoc(conversationsRef, {
+            participants: [uid_young, uid_old],
+            lastUpdated: new Date(), // Date actuelle
+        });
+        
+        // Renvoyer l'ID du nouveau document créé
+        return docRef.id;
+    } catch (error) {
+        console.error('Erreur lors de la création de la conversation :', error);
+        throw error;
+    }
+};
+
+
 // Envoyer un message dans une conversation
 export const sendMessage = async (conversationId, senderUid, messageContent) => {
     try {

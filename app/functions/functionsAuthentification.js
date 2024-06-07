@@ -200,7 +200,7 @@ export const signIn = async (navigation, email, password, setLoading) => {
     }
 };
 
-export const signUp = async (firstName, lastName, phone, email, address, lat, long, password, setLoading) => {
+export const signUp = async (firstName, lastName, phone, email, address, lat, long, password, setLoading, navigation) => {
     const db = FIREBASE_DB
     const auth = FIREBASE_AUTH
     setLoading(true);
@@ -221,6 +221,7 @@ export const signUp = async (firstName, lastName, phone, email, address, lat, lo
     });
 
     Alert.alert('Account created successfully!');
+    navigation.navigate('Login');
     } catch (error) {
     console.error(error);
     Alert.alert('Sign up failed', error.message);

@@ -219,10 +219,11 @@ export const fetchOldNames = async (uid_young, setUidYoung, setOldNames) => {
                 const vieuxQuery = query(vieuxRef, where('uid', '==', oldId));
                 const vieuxDoc = await getDocs(vieuxQuery);
                 const vieuxData = vieuxDoc.docs[0].data();
+                console.log(vieuxData)
                 const vieuxName = `${vieuxData.firstName} ${vieuxData.lastName}`;
                 vieuxNames.push({ uid_old: oldId, name_old: vieuxName });
             }
-
+            console.log(vieuxNames)
             // Mettre à jour l'état avec les noms des vieux
             setOldNames(vieuxNames);
             console.log('Noms des vieux récupérés :', vieuxNames)

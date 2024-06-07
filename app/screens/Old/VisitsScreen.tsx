@@ -26,7 +26,7 @@ const VisitsScreen = () => {
             </View>
 
             <View style={stylesDashboard.buttonContainer}>
-              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AddInfos', {name : name ,uid : uid})}>
+              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Dashboard2', {name : name ,uid : uid})}>
                 <Text style={styles.textButton}>Modifier mes disponibilités</Text>
               </TouchableOpacity>
             </View>

@@ -113,9 +113,10 @@ const HomeScreen = () => {
         });
       }
     }
+    console.log('MEETINGS : ', fetchedMeetings)
     let filteredFetchedMeetings = await filterObsoleteDaysNextVisits(fetchedMeetings);
     setMeetings(filteredFetchedMeetings.length > 0 ? filteredFetchedMeetings : []);
-    setHasMadeRequest(filteredFetchedMeetings.length > 0);
+    //setHasMadeRequest(filteredFetchedMeetings.length > 0);
     //console.log('filteredfetchedmeetings : ', filteredFetchedMeetings)
     //console.log('hasmaderequest : ', hasMadeRequest)
   };
@@ -137,7 +138,7 @@ const HomeScreen = () => {
     // Construire la chaîne de caractères formatée
     sortedDays.forEach(day => {
       const hour = availability[day][0]; // différence entre formatAvailability et formatAvailability2, c'est juste qu'on l'applique pas aux memes dictionnaires
-      formattedAvailability += `${day} : ${hour}h\n`;
+      formattedAvailability += `${day} : ${hour}h, `;
     });
     return formattedAvailability;
   };
@@ -253,7 +254,7 @@ const fetchAssociatedProfileImage = async () => {
                       </TouchableOpacity>
                     </>
                   ) : (
-                    <Text>Aucune date trouvée</Text>
+                    <Text style={{alignSelf: 'center', marginBottom : 20}}>Aucune date trouvée pour la prochaine visite</Text>
                   )
                 ) : (
                   <View>
