@@ -37,6 +37,7 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [meetings, setMeetings] = useState([]);
   const [matchingOlds, setMatchingOlds] = useState([]);
+  const [meetingsFetched, setMeetingsFetched] = useState(false);
 
   {/* fonction appelée à chaque rafraichissement de la page : ici on cherche la prohaine visite */}
   const onRefresh = async () => {
@@ -119,6 +120,7 @@ const HomeScreen = () => {
     //setHasMadeRequest(filteredFetchedMeetings.length > 0);
     //console.log('filteredfetchedmeetings : ', filteredFetchedMeetings)
     //console.log('hasmaderequest : ', hasMadeRequest)
+    setMeetingsFetched(true);
   };
 
   useEffect(() => {
@@ -130,7 +132,13 @@ const HomeScreen = () => {
   const formatAvailability = (availability) => {
     let formattedAvailability = '';
     // Définir l'ordre des jours de la semaine
-    const daysOrder = ['Lundi matin', 'Lundi midi', 'Lundi a-m', 'Lundi soir', 'Mardi matin', 'Mardi midi', 'Mardi a-m', 'Mardi soir', 'Mercredi matin', 'Mercredi midi', 'Mercredi a-m', 'Mercredi soir', 'Jeudi matin', 'Jeudi midi', 'Jeudi a-m', 'Jeudi soir', 'Vendredi matin', 'Vendredi midi', 'Vendredi a-m', 'Vendredi soir'];
+    const daysOrder = ['Lundi matin', 'Lundi midi', 'Lundi a-m', 'Lundi soir',
+                      'Mardi matin', 'Mardi midi', 'Mardi a-m', 'Mardi soir',
+                      'Mercredi matin', 'Mercredi midi', 'Mercredi a-m', 'Mercredi soir',
+                      'Jeudi matin', 'Jeudi midi', 'Jeudi a-m', 'Jeudi soir',
+                      'Vendredi matin', 'Vendredi midi', 'Vendredi a-m', 'Vendredi soir',
+                      'Samedi matin', 'Samedi midi', 'Samedi a-m', 'Samedi soir',
+                      'Dimanche matin', 'Dimanche midi', 'Dimanche a-m', 'Dimanche soir'];
     // Trier les jours de la semaine selon l'ordre défini
     const sortedDays = Object.keys(availability).sort((a, b) => {
       return daysOrder.indexOf(a) - daysOrder.indexOf(b);
@@ -146,8 +154,13 @@ const HomeScreen = () => {
   const formatAvailability2 = (availability) => {
     let formattedAvailability = '';
     // Définir l'ordre des jours de la semaine
-    const daysOrder = ['Lundi matin', 'Lundi midi', 'Lundi a-m', 'Lundi soir', 'Mardi matin', 'Mardi midi', 'Mardi a-m', 'Mardi soir', 'Mercredi matin', 'Mercredi midi', 'Mercredi a-m', 'Mercredi soir', 'Jeudi matin', 'Jeudi midi', 'Jeudi a-m', 'Jeudi soir', 'Vendredi matin', 'Vendredi midi', 'Vendredi a-m', 'Vendredi soir'];
-    // Trier les jours de la semaine selon l'ordre défini
+    const daysOrder = ['Lundi matin', 'Lundi midi', 'Lundi a-m', 'Lundi soir',
+                      'Mardi matin', 'Mardi midi', 'Mardi a-m', 'Mardi soir',
+                      'Mercredi matin', 'Mercredi midi', 'Mercredi a-m', 'Mercredi soir',
+                      'Jeudi matin', 'Jeudi midi', 'Jeudi a-m', 'Jeudi soir',
+                      'Vendredi matin', 'Vendredi midi', 'Vendredi a-m', 'Vendredi soir',
+                      'Samedi matin', 'Samedi midi', 'Samedi a-m', 'Samedi soir',
+                      'Dimanche matin', 'Dimanche midi', 'Dimanche a-m', 'Dimanche soir'];    // Trier les jours de la semaine selon l'ordre défini
     const sortedDays = Object.keys(availability).sort((a, b) => {
       return daysOrder.indexOf(a) - daysOrder.indexOf(b);
     });
@@ -159,6 +172,57 @@ const HomeScreen = () => {
     return formattedAvailability;
   };
   
+  const getCurrentDayOrder = () => {
+    const currentDate = new Date();
+    const currentDay = currentDate.getDay();
+    const daysOrder = ['Dimanche matin', 'Dimanche midi', 'Dimanche a-m', 'Dimanche soir', 'Lundi matin', 'Lundi midi', 'Lundi a-m', 'Lundi soir', 'Mardi matin', 'Mardi midi', 'Mardi a-m', 'Mardi soir', 'Mercredi matin', 'Mercredi midi', 'Mercredi a-m', 'Mercredi soir', 'Jeudi matin', 'Jeudi midi', 'Jeudi a-m', 'Jeudi soir', 'Vendredi matin', 'Vendredi midi', 'Vendredi a-m', 'Vendredi soir', 'Samedi matin', 'Samedi midi', 'Samedi a-m', 'Samedi soir'];
+    const offset = currentDay * 4;
+    return [...daysOrder.slice(offset), ...daysOrder.slice(0, offset)];
+  };
+
+  const flattenMeetings = (meetings) => {
+    let flattenedMeetings = [];
+    const currentDayOrder = getCurrentDayOrder();
+    meetings.forEach(meeting => {
+      Object.keys(meeting.availability).forEach(day => {
+        flattenedMeetings.push({
+          id: `${meeting.id}-${day}`,
+          uid_old: meeting.uid_old,
+          oldName: meeting.oldName,
+          address: meeting.address,
+          distance: meeting.distance,
+          day: day,
+          time: meeting.availability[day],
+        });
+      });
+    });
+    flattenedMeetings.sort((a, b) => currentDayOrder.indexOf(a.day) - currentDayOrder.indexOf(b.day));
+    return flattenedMeetings;
+  };
+  
+  const getNextAvailableDay = (availability) => {
+    const daysOrder = getCurrentDayOrder();
+    const currentDayIndex = new Date().getDay() * 4; // multiply by 4 because each day has 4 slots (morning, noon, afternoon, evening)
+    const sortedAvailability = Object.entries(availability).sort((a, b) => {
+      return daysOrder.indexOf(a[0]) - daysOrder.indexOf(b[0]);
+    });
+  
+    for (let i = currentDayIndex; i < daysOrder.length; i++) {
+      const day = daysOrder[i];
+      if (availability[day]) {
+        return { day, time: availability[day] };
+      }
+    }
+  
+    for (let i = 0; i < currentDayIndex; i++) {
+      const day = daysOrder[i];
+      if (availability[day]) {
+        return { day, time: availability[day] };
+      }
+    }
+  
+    return null;
+  };
 {/*données pour les infos dans les petits carrés osef pour l'instant
   const data = [
     { id: '1', title: 'Actualité 1' },
@@ -203,6 +267,8 @@ const fetchAssociatedProfileImage = async () => {
   
   //console.log('hasmaderequest2', hasMadeRequest)
 
+  const flattenedMeetings = flattenMeetings(meetings);
+
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'white' }}>
       <SafeAreaView style={styles.scrollContainer}>
@@ -224,16 +290,16 @@ const fetchAssociatedProfileImage = async () => {
             s'il n'y a pas de prochaine visite, propose de renseigner ses dispos */}
             {!isRefreshing && (
               <View style ={{flex: 1}}>
-                {loading ? (
+                {loading || !meetingsFetched ? (
                   <ActivityIndicator size="large" color="#0000f" />
                 ) : hasMadeRequest ? (
                   meetings.length > 0 ? (
                     <>
                       <Text style={styles.Subtitle2}>Prochaine visite</Text>
                       <TouchableOpacity
-                        style={stylesDasboard.squareNext1}
+                        style={stylesDashboard.squareNext1}
                       >
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginRight: 10, width: '100%', height: '100%'}}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginRight: 10, width: '100%', height: '100%' }}>
                           {associatedProfileImage ? (
                             <Image
                               source={{ uri: associatedProfileImage }}
@@ -242,7 +308,15 @@ const fetchAssociatedProfileImage = async () => {
                           ) : (
                             <Ionicons name="person-outline" size={70} color="black" style={{ marginHorizontal: 20 }} />
                           )}
-                          <Text style={stylesDasboard.squareTextSuggestions}>{`${meetings[0].oldName}\n${formatAvailability2(meetings[0].availability)}\n${meetings[0].address}`}</Text>
+                          <View style={{ alignItems: 'flex-start' }}>
+                            <Text style={stylesDashboard.squareTextSuggestionsBold}>{`${meetings[0].oldName}`}</Text>
+                            {getNextAvailableDay(meetings[0].availability) && (
+                              <Text style={stylesDashboard.squareTextSuggestionsBold}>
+                                {`${getNextAvailableDay(meetings[0].availability).day} : ${getNextAvailableDay(meetings[0].availability).time}h`}
+                              </Text>
+                            )}
+                            <Text style={stylesDashboard.squareTextSuggestions}>{`${meetings[0].address}`}</Text>
+                          </View>
                         </View>
                       </TouchableOpacity>
 
@@ -317,28 +391,28 @@ const fetchAssociatedProfileImage = async () => {
                   </TouchableOpacity>
                 </View>
 
-                <View style={{flexDirection: 'row', marginTop: 10}}>
+                <View style={{ flexDirection: 'row', marginTop: 10 }}>
                   <FlatList
                     horizontal
-                    data={meetings}
+                    data={flattenedMeetings}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                    <TouchableOpacity
-                      style={stylesDashboard.squareSuggestions}
-                      onPress={() => navigation.navigate('MeetingDetails', { uid_young : uid, uid_old: item.uid_old, availability: item.availability, oldName: item.oldName, address: item.address})}
-                    >
-                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 10 }}>
+                      <TouchableOpacity
+                        style={stylesDashboard.squareSuggestions}
+                        onPress={() => navigation.navigate('MeetingDetails', { uid_young: uid, uid_old: item.uid_old, availability: { [item.day]: item.time }, oldName: item.oldName, address: item.address })}
+                      >
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 10 }}>
                         <View style={{ alignItems: 'flex-start' }}>
-                          <Text style={stylesDashboard.squareTextSuggestions}>{`${item.oldName}\nVisites ${item.freq}s\n${formatAvailability2(item.availability)}\n${item.distance} km`}</Text>
+                          <Text style={stylesDashboard.squareTextSuggestionsBold}>{item.oldName}</Text>
+                          <Text style={stylesDashboard.squareTextSuggestionsBold}>{`${item.day} : ${item.time}h`}</Text>
+                          <Text style={stylesDashboard.squareTextSuggestions}>{`${item.address} à ${item.distance} km`}</Text>
                         </View>
-                        <View style={{alignSelf: 'top'}}>
-                          <Ionicons name="chevron-forward-outline" size={24} color="black" />
+
+                          <View style={{ alignSelf: 'top' }}>
+                            <Ionicons name="chevron-forward-outline" size={24} color="black" />
+                          </View>
                         </View>
-
-                      </View>
-                    </TouchableOpacity>
-
-
+                      </TouchableOpacity>
                     )}
                   />
                 </View>

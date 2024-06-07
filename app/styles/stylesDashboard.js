@@ -147,13 +147,21 @@ const stylesDashboard = StyleSheet.create({
         textAlign: 'center'
       },
 
-      squareTextSuggestions: {
+    squareTextSuggestions: {
         fontSize: 16,
-        fontWeight: 'bold',
+        fontFamily: 'HelveticaNeue',
         color: 'black',
         width: 200,
         textAlign: 'left'
-      },
+    },
+
+    squareTextSuggestionsBold: {
+        fontSize: 16,
+        fontFamily: 'HelveticaNeue-Bold',
+        color: 'black',
+        width: 200,
+        textAlign: 'left'
+    },
 
     flatListContainer: {
         alignItems: 'center',

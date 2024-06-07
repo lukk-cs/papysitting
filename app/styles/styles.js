@@ -18,7 +18,7 @@ const blue = '#0D3B66'
 
 const styles = StyleSheet.create({
   Input : {
-    fontFamily: 'HelveticaNeue-Bold',
+    fontFamily: 'HelveticaNeue',
     backgroundColor: 'white',
     borderWidth: .5,
     borderColor: gray,
