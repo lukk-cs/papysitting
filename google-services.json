@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "598976090296",
+    "project_id": "papysittingid",
+    "storage_bucket": "papysittingid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598976090296:android:3fb326fea551d9e9dc644d",
+        "android_client_info": {
+          "package_name": "com.imrenco.papysitting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598976090296-ggfgo7vjbtd3n6fajiki6ssbukh7b99c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.imrenco.papysitting",
+            "certificate_hash": "41ddfec91678f9eb0b3436522856d41d0ad13ebd"
+          }
+        },
+        {
+          "client_id": "598976090296-bjq61n2uq5kuspmtb303ucjsbdpsh5vv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCP3-u2BL8Nf0l0_nNrgqlpDhuiGZlR8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598976090296-bjq61n2uq5kuspmtb303ucjsbdpsh5vv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "598976090296-qrr6jli0g0ueobfl2tl03abku0j3ps7q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.imrenco.papysitting"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
