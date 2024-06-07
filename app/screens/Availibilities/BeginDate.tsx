@@ -8,7 +8,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import stylesDashboard from "../../styles/stylesDashboard";
 
-const Dashboard2 = () => {
+const BeginDate = () => {
   const route = useRoute();
 
   const { name, uid } = route.params;
@@ -61,4 +61,4 @@ const Dashboard2 = () => {
   );
 }
 
-export default Dashboard2;
+export default BeginDate;

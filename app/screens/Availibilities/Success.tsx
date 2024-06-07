@@ -10,7 +10,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import stylesAccountCreated from '../../styles/stylesAccountCreated';
 import stylesContainers from '../../styles/stylesContainers';
 
-const Dashboard6 = () => {
+const Success = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const {startDate, chosenMoments, chosenHours } = route.params;
@@ -50,4 +50,4 @@ const Dashboard6 = () => {
 );
 };
 
-export default Dashboard6;
+export default Success;

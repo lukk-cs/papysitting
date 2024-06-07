@@ -8,7 +8,7 @@ import { getUserProfileImage } from '../../functions/functionsStorage';
 import { Ionicons } from '@expo/vector-icons';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { FIREBASE_DB, FIREBASE_AUTH } from '../../../FirebaseConfig';
-import { fetchOldNames } from './api';
+import { fetchOldNames } from '../../functions/api';
 import stylesMessages from '../../styles/stylesMessages';
 import styles from '../../styles/styles';
 

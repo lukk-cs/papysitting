@@ -8,7 +8,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import stylesDashboard from '../../styles/stylesDashboard';
 import { post } from '../../functions/functionsDatabase';
 
-const Dashboard5 = () => {
+const HoursofDay = () => {
   const [selectedHours, setSelectedHours] = useState<{ [key: string]: [number, number] }>({});
   const [loading, setLoading] = useState(false);
   const route = useRoute();
@@ -119,4 +119,4 @@ const Dashboard5 = () => {
   );
 }
 
-export default Dashboard5;
+export default HoursofDay;

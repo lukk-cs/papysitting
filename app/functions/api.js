@@ -1,7 +1,7 @@
-import { FIREBASE_AUTH, FIREBASE_DB } from '../../../FirebaseConfig';
-import { getFirstName } from '../../functions/functionsAuthentification';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../FirebaseConfig';
+import { getFirstName } from './functionsAuthentification';
 import { query, collection, where, getDocs } from 'firebase/firestore';
-import { proposeMatchingOlds } from '../../functions/functionsMatching';
+import { proposeMatchingOlds } from './functionsMatching';
 
 
 // Fonction pour vérifier si un jour est passé par rapport à la date actuelle
@@ -211,7 +211,6 @@ export const fetchOldNames = async (uid_young, setUidYoung, setOldNames) => {
                 const matchingData = doc.data();
                 oldIds.push(matchingData.uid_old);
             });
-            console.log('Identifiants des vieux récupérés :', oldIds);
             // Récupérer les noms associés aux uid_old
             const vieuxRef = collection(db, 'olds'); // Adapter en fonction de votre nom de collection
             const vieuxNames = [];
@@ -219,18 +218,15 @@ export const fetchOldNames = async (uid_young, setUidYoung, setOldNames) => {
                 const vieuxQuery = query(vieuxRef, where('uid', '==', oldId));
                 const vieuxDoc = await getDocs(vieuxQuery);
                 const vieuxData = vieuxDoc.docs[0].data();
-                console.log(vieuxData)
                 const vieuxName = `${vieuxData.firstName} ${vieuxData.lastName}`;
                 vieuxNames.push({ uid_old: oldId, name_old: vieuxName });
             }
-            console.log(vieuxNames)
             // Mettre à jour l'état avec les noms des vieux
             setOldNames(vieuxNames);
-            console.log('Noms des vieux récupérés :', vieuxNames)
         } else {
             console.error('Utilisateur non connecté');
         }
     } catch (error) {
-        console.error('Erreur lors de la récupération des données utilisateur :', error);
+        console.error('Erreur lors de la récupération des noms utilisateur :', error);
     }
 };

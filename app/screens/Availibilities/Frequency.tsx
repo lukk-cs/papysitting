@@ -6,7 +6,7 @@ import stylesDashboard from '../../styles/stylesDashboard';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-const Dashboard3 = () => {
+const Frequency = () => {
     const [showButton1, setShowButton1] = useState(true);
     const [showButton2, setShowButton2] = useState(true);
     const navigation = useNavigation();
@@ -104,4 +104,4 @@ const Dashboard3 = () => {
 };
 
 
-export default Dashboard3;
+export default Frequency;
