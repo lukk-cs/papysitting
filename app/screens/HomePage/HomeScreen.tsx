@@ -267,6 +267,19 @@ const fetchAssociatedProfileImage = async () => {
   
   //console.log('hasmaderequest2', hasMadeRequest)
 
+  const countDaysAndHours = (availability) => {
+    const daysSet = new Set();
+    let totalHours = 0;
+
+    Object.keys(availability).forEach(key => {
+      const [day, period] = key.split(' ');
+      daysSet.add(day);
+      totalHours += parseInt(availability[key], 10);
+    });
+
+    return { totalDays: daysSet.size, totalHours };
+  };
+  
   const flattenedMeetings = flattenMeetings(meetings);
 
   return (
@@ -346,7 +359,7 @@ const fetchAssociatedProfileImage = async () => {
                   </View>
                 )}
 
-
+                
                 {/* affiche les visites suggérées i.e. tous les vieux qui ont besoin d'une visite et qui sont proches */}
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginRight : 20, }}>
                   <Text style={styles.Subtitle2}>Visites Suggérées</Text>
@@ -365,57 +378,68 @@ const fetchAssociatedProfileImage = async () => {
                     horizontal
                     data={matchingOlds}
                     keyExtractor={(item) => item.uid}
-                    renderItem={({ item }) => (
+                    renderItem={({ item }) => {
+                      const { totalDays, totalHours } = countDaysAndHours(item.commonAvailability);
+                      console.log('jours et heures : ', totalDays, totalHours)
+                      return (
                       <TouchableOpacity
                         style={stylesDashboard.squareSuggestions}
                         onPress={() => navigation.navigate('PersonDetails', { uid_young : uid, uid_old: item.uid, firstName : item.firstName, lastName : item.lastName, address : item.address, availability : item.commonAvailability, annonceId: item.annonceId})}
                       >
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 10 }}>
                           <View style={{ alignItems: 'flex-start' }}>
-                            <Text style={stylesDashboard.squareTextSuggestions}>{`${item.firstName} ${item.lastName}\n Visites ${item.freq}s \n ${formatAvailability(item.commonAvailability)}\n${item.distance} km`}</Text>
+                            {/*<Text style={stylesDashboard.squareTextSuggestions}>{`${item.firstName} ${item.lastName}\n Visites ${item.freq}s \n ${formatAvailability(item.commonAvailability)}\n${item.distance} km`}</Text>*/}
+                            <Text style={stylesDashboard.squareTextSuggestionsBold}>{`${item.firstName} ${item.lastName}`}</Text>
+                            <Text style={stylesDashboard.squareTextSuggestionsBold}>{`Visites ${item.freq}s`}</Text>
+                            <Text style={stylesDashboard.squareTextSuggestions}>{`${totalDays}j/semaine`}</Text>
+                            <Text style={stylesDashboard.squareTextSuggestions}>{`${totalHours}h/semaine         ${item.distance} km`}</Text>
                           </View>
                         <View style={{alignSelf: 'top'}}>
                           <Ionicons name="chevron-forward-outline" size={24} color="black" />
                         </View>
-
                       </View>
                       </TouchableOpacity>
-                    )}
+                      );
+                    }}
                   />
                 </View>
 
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginRight : 20, }}>
-                  <Text style={styles.Subtitle2}>Visites à venir</Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('Meetings', { uid: uid })}>
-                    <Text style={{fontFamily: 'HelveticaNeue', color: '#a0a5a8', fontSize: 16, textDecorationLine: 'underline',}}>Voir tout</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                  <FlatList
-                    horizontal
-                    data={flattenedMeetings}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                      <TouchableOpacity
-                        style={stylesDashboard.squareSuggestions}
-                        onPress={() => navigation.navigate('MeetingDetails', { uid_young: uid, uid_old: item.uid_old, availability: { [item.day]: item.time }, oldName: item.oldName, address: item.address })}
-                      >
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 10 }}>
-                        <View style={{ alignItems: 'flex-start' }}>
-                          <Text style={stylesDashboard.squareTextSuggestionsBold}>{item.oldName}</Text>
-                          <Text style={stylesDashboard.squareTextSuggestionsBold}>{`${item.day} : ${item.time}h`}</Text>
-                          <Text style={stylesDashboard.squareTextSuggestions}>{`${item.address} à ${item.distance} km`}</Text>
-                        </View>
-
-                          <View style={{ alignSelf: 'top' }}>
-                            <Ionicons name="chevron-forward-outline" size={24} color="black" />
-                          </View>
-                        </View>
+                {meetings.length > 0 && (
+                  <View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginRight: 20 }}>
+                      <Text style={styles.Subtitle2}>Visites à venir</Text>
+                      <TouchableOpacity onPress={() => navigation.navigate('Meetings', { uid: uid })}>
+                        <Text style={{ fontFamily: 'HelveticaNeue', color: '#a0a5a8', fontSize: 16, textDecorationLine: 'underline' }}>Voir tout</Text>
                       </TouchableOpacity>
-                    )}
-                  />
-                </View>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                      <FlatList
+                        horizontal
+                        data={flattenedMeetings}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => (
+                          <TouchableOpacity
+                            style={stylesDashboard.squareSuggestions}
+                            onPress={() => navigation.navigate('MeetingDetails', { uid_young: uid, uid_old: item.uid_old, availability: { [item.day]: item.time }, oldName: item.oldName, address: item.address })}
+                          >
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 10 }}>
+                              <View style={{ alignItems: 'flex-start' }}>
+                                <Text style={stylesDashboard.squareTextSuggestionsBold}>{item.oldName}</Text>
+                                <Text style={stylesDashboard.squareTextSuggestionsBold}>{`${item.day} : ${item.time}h`}</Text>
+                                <Text style={stylesDashboard.squareTextSuggestions}>{`${item.address} à ${item.distance} km`}</Text>
+                              </View>
+
+                              <View style={{ alignSelf: 'top' }}>
+                                <Ionicons name="chevron-forward-outline" size={24} color="black" />
+                              </View>
+                            </View>
+                          </TouchableOpacity>
+                        )}
+                      />
+                    </View>
+                  </View>
+                )}
 
 {/* pour accéder à stripe
                 <View style={stylesDasboard.buttonContainer}>
