@@ -59,33 +59,35 @@ const MessagesScreen = () => {
         <SafeAreaProvider style={stylesContainers.safeProviderContainer}>
           <View style={stylesDocuments.container}>
             <Text style={styles.Title}>Messages</Text>
-
-            {/* Boucle sur tous les items de oldNames */}
-            {oldNames.map((item, index) => (
-              <View key={index} style={stylesMessages.personContainer}>
-                {oldImages[index] ? (
-                  <Image source={{ uri: oldImages[index] }} style={{ width: 50, height: 50, borderRadius: 25 }} />
-                ) : (
-                  <View style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: '#e0e0e0', justifyContent: 'center', alignItems: 'center' }}>
-                    <Ionicons name="person-outline" size={24} color="black" />
-                  </View>
-                )}
-                <TouchableOpacity 
-                  style={stylesDocuments.button} 
-                  onPress={() => navigation.navigate('ChatPage', { uid_young: uid_young, uid_old: item.uid_old, name_old : item.name_old })}
-                >
-                  <Text style={stylesDocuments.buttonText}>{item.name_old}</Text>
-                  <Ionicons name="chevron-forward-outline" size={24} color="black" />
-                </TouchableOpacity>
-              </View>
-            ))}
-
-            
+            {oldNames.length === 0 ? (
+              <Text style={{ textAlign: 'center', marginTop: 20 }}>Planifie un rendez-vous pour pouvoir envoyer des messages !</Text>
+            ) : (
+              /* Boucle sur tous les items de oldNames */
+              oldNames.map((item, index) => (
+                <View key={index} style={stylesMessages.personContainer}>
+                  {oldImages[index] ? (
+                    <Image source={{ uri: oldImages[index] }} style={{ width: 50, height: 50, borderRadius: 25 }} />
+                  ) : (
+                    <View style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: '#e0e0e0', justifyContent: 'center', alignItems: 'center' }}>
+                      <Ionicons name="person-outline" size={24} color="black" />
+                    </View>
+                  )}
+                  <TouchableOpacity 
+                    style={stylesDocuments.button} 
+                    onPress={() => navigation.navigate('ChatPage', { uid_young: uid_young, uid_old: item.uid_old, name_old : item.name_old })}
+                  >
+                    <Text style={stylesDocuments.buttonText}>{item.name_old}</Text>
+                    <Ionicons name="chevron-forward-outline" size={24} color="black" />
+                  </TouchableOpacity>
+                </View>
+              ))
+            )}
           </View>
         </SafeAreaProvider>
       </ScrollView>
     </SafeAreaView>
   );
+  
 };
 
 export default MessagesScreen;
