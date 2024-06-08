@@ -24,7 +24,6 @@ const BeginDate = () => {
   affiche les éléments */}
   const handleDateChange = async (date) => {
     setSelectedStartDate(date);
-    console.log('date', date);
   };
 
   return (

@@ -14,11 +14,22 @@ const stylesAddInfos = StyleSheet.create({
     inputContainer: {
         alignSelf: 'center',
         width: '80%',
-        height: 'auto',
+        height: '80%',
         marginTop: 20,
-
     },
-
+    label: {
+        fontSize: 16,
+        fontFamily: 'HelveticaNeue-Bold',
+        marginBottom: 5,
+    },
+    textInput: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 10,
+        borderRadius: 10,
+        textAlignVertical: 'top',
+        height: '50%',
+    },
     imageContainer: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -38,7 +49,7 @@ const stylesAddInfos = StyleSheet.create({
     nameContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 50,
+        marginVertical: 30,
         alignSelf: 'center',
     },
     nameText: {

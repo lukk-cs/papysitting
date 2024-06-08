@@ -6,7 +6,7 @@ import styles from '../../styles/styles';
 import stylesDashboard from '../../styles/stylesDashboard';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
-const jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
+const jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 const moments = ['matin', 'midi', 'a-m', 'soir'];
 
 export default function App() {
@@ -16,7 +16,6 @@ export default function App() {
   const { name, uid, startDate, frequency } = route.params;
   const [chosenMoments, setChosenMoments] = useState({});
   const momentChosen = Object.values(selections).some(moment => Object.values(moment).some(value => value));
-
   const toggleSelection = (jour, moment) => {
     setSelections(prev => ({
       ...prev,

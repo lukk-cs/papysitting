@@ -312,7 +312,10 @@ export const post = async (name, startDate, frequency, uid, chosenHours, setLoad
       const db = FIREBASE_DB;
       const annoncesCollection = collection(db, 'annoncesJeunes');
 
-  
+      // Then, delete existing documents associated with user's uid
+      const userQuery = query(annoncesCollection, where('user', '==', uid));
+      const userDocs = await getDocs(userQuery);
+
       // First, add the new demand to the database
       await addDoc(annoncesCollection, {
         user: uid,
@@ -321,9 +324,6 @@ export const post = async (name, startDate, frequency, uid, chosenHours, setLoad
         hours: chosenHours,
       });
   
-      // Then, delete existing documents associated with user's uid
-      const userQuery = query(annoncesCollection, where('user', '==', uid));
-      const userDocs = await getDocs(userQuery);
   
       userDocs.forEach(async (doc) => {
         await deleteDoc(doc.ref);
@@ -336,7 +336,7 @@ export const post = async (name, startDate, frequency, uid, chosenHours, setLoad
       alert("Post failed: " + error.message);
     } finally {
       setLoading(false);
-      navigation.navigate('Dashboard6', { name : name, uid : uid });
+      navigation.navigate('Success', { name : name, uid : uid });
     }
   };
   
@@ -396,4 +396,67 @@ export const post = async (name, startDate, frequency, uid, chosenHours, setLoad
     } finally {
         setLoading(false);
     }
+};
+
+export const updatePresentation = async (uid, presentation, setLoading) => {
+  const db = FIREBASE_DB;
+  setLoading(true);
+  
+  try {
+      const youngsCollectionRef = collection(db, 'youngs');
+      const q = query(youngsCollectionRef, where("uid", "==", uid));
+      const querySnapshot = await getDocs(q);
+      
+      if (querySnapshot.empty) {
+          console.error("No matching document found");
+          return;
+      }
+      
+      const docId = querySnapshot.docs[0].id;
+      const userDocRef = doc(db, 'youngs', docId);
+      
+      await updateDoc(userDocRef, {
+          presentation: presentation,
+      });
+
+      console.log('Presentation updated successfully');
+  } catch (error) {
+      console.error(error);
+      Alert.alert('Presentation not updated : ', error.message);
+  } finally {
+      setLoading(false);
+  }
+};
+
+export const updateUserInfo = async (uid, birthDate, license, school, interests, setLoading) => {
+  const db = FIREBASE_DB;
+  setLoading(true);
+  
+  try {
+      const youngsCollectionRef = collection(db, 'youngs');
+      const q = query(youngsCollectionRef, where("uid", "==", uid));
+      const querySnapshot = await getDocs(q);
+      
+      if (querySnapshot.empty) {
+          console.error("No matching document found");
+          return;
+      }
+      
+      const docId = querySnapshot.docs[0].id;
+      const userDocRef = doc(db, 'youngs', docId);
+      
+      await updateDoc(userDocRef, {
+          birthDate: birthDate,
+          license: license,
+          school: school,
+          interests: interests,
+      });
+
+      console.log('User info updated successfully');
+  } catch (error) {
+      console.error(error);
+      Alert.alert('User info not updated: ', error.message);
+  } finally {
+      setLoading(false);
+  }
 };

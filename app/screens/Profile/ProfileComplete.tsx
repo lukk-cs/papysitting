@@ -25,21 +25,13 @@ const ProfileComplete = () => {
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('Login')}
+                    onPress={() => navigation.navigate('Dashboard')}
                     style={styles.button}
                     >
-                    <Text style={styles.textButton}>Compléter mon profil</Text>
+                    <Text style={styles.textButton}>Revenir à l'accueil</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('DashboardOld')}
-                    style={stylesAccountCreated.buttonPass}
-                    >
-                    <Text style={stylesAccountCreated.textButtonPass}>Passer cette étape ></Text>
-                </TouchableOpacity>
-            </View>
             </SafeAreaProvider>
         </ScrollView>
         </SafeAreaView>

@@ -13,7 +13,6 @@ const Frequency = () => {
     const route = useRoute();
     const { name, uid, startDate } = route.params;
     const [frequency, setFrequency] = useState('');
-
     const toggleButtons1 = () => {
         setShowButton1(!showButton1);
         setShowButton2(!!showButton1);
@@ -25,7 +24,6 @@ const Frequency = () => {
         setShowButton2(!showButton2);
         setFrequency(showButton2 ? 'ponctuelle' : 'reguliere');
     };
-    console.log(frequency)
     return (
         <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'white' }}>
             <SafeAreaView style={stylesDashboard.scrollContainer}>

@@ -14,31 +14,21 @@ const HoursofDay = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { name, uid, startDate, frequency, chosenMoments } = route.params;
-
   // Initialisation des heures à [1,0] pour chaque moment
   useEffect(() => {
-    // Créer un objet avec toutes les heures initialisées à [1, 0]
     const initialHours: { [key: string]: [number, number] } = {};
-  
-    // Parcourir tous les jours de la semaine
     Object.keys(chosenMoments).forEach((jour: string) => {
-      // Parcourir tous les moments du jour
       chosenMoments[jour].forEach((moment: string) => {
-        // Définir l'heure à [1, 0] pour ce moment de la journée
         initialHours[`${jour} ${moment}`] = [1, 0];
       });
     });
-  
-    // Mettre à jour les heures sélectionnées avec les heures initialisées
     setSelectedHours(initialHours);
   }, []);
-  
-  
+
   useEffect(() => {
-    console.log(selectedHours);
+    //console.log(selectedHours);
   }, [selectedHours]);
 
-  // Fonction pour convertir l'heure au format souhaité
   const formatHour = (hourArray: [number, number]) => {
     const hour = hourArray[0];
     const integerPart = Math.floor(hour);
@@ -46,29 +36,27 @@ const HoursofDay = () => {
     const minute = decimalPart === 0 ? '' : decimalPart === 0.5 ? '30' : '00';
     return `${integerPart}h${minute}`;
   };
-  
 
   const handleHourChange = (moment: string, hour: number) => {
-    // Assurez-vous que l'heure est toujours au moins 1
     const adjustedHour = Math.max(1, hour);
-  
     setSelectedHours(prev => ({
       ...prev,
       [moment]: [adjustedHour, 0] as [number, number]
     }));
   };
-  
-  
-  const getDisplayHour = (hourArray: [number, number]) => { // Définir le type de hourArray comme [number, number]
-    return hourArray[0]; // Renvoie la première valeur du tableau (le nombre d'heures)
+
+  const getDisplayHour = (hourArray: [number, number]) => {
+    return hourArray[0];
   };
-  
 
   // Triez les jours de la semaine
   const sortedDays = Object.keys(chosenMoments).sort((a, b) => {
     const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
     return days.indexOf(a) - days.indexOf(b);
   });
+
+  // Définir l'ordre des moments de la journée
+  const momentOrder = ['matin', 'midi', 'a-m', 'soir'];
 
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -78,22 +66,22 @@ const HoursofDay = () => {
           <View style={stylesDashboard4.container}>
             {sortedDays.map((jour, index) => (
               <View key={jour} style={stylesDashboard4.row}>
-                {chosenMoments[jour].sort().map((moment: string) => (
+                {chosenMoments[jour].sort((a: string, b: string) => momentOrder.indexOf(a) - momentOrder.indexOf(b)).map((moment: string) => (
                   <View key={`${jour} ${moment}`} style={stylesDashboard4.row}>
                     <Text style={stylesDashboard4.dayText}>{jour} {moment}</Text>
                     <View style={stylesDashboard4.momentsContainer}>
                       <Slider
-                          style={stylesDashboard4.slider}
-                          value={selectedHours[`${jour} ${moment}`] ? getDisplayHour(selectedHours[`${jour} ${moment}`]) : 1}
-                          minimumValue={1}
-                          maximumValue={4}
-                          step={0.5}
-                          thumbTintColor="#4f9deb"
-                          onValueChange={hour => handleHourChange(`${jour} ${moment}`, hour)}
-                          thumbStyle={stylesDashboard4.thumbStyle}
-                        />
+                        style={stylesDashboard4.slider}
+                        value={selectedHours[`${jour} ${moment}`] ? getDisplayHour(selectedHours[`${jour} ${moment}`]) : 1}
+                        minimumValue={1}
+                        maximumValue={4}
+                        step={0.5}
+                        thumbTintColor="#4f9deb"
+                        onValueChange={hour => handleHourChange(`${jour} ${moment}`, hour)}
+                        thumbStyle={stylesDashboard4.thumbStyle}
+                      />
                       <View style={stylesDashboard4.sliderValueContainer}>
-                        <Text style={stylesDashboard4.sliderValue}>{formatHour(selectedHours[`${jour} ${moment}`] || 1)}</Text>
+                        <Text style={stylesDashboard4.sliderValue}>{formatHour(selectedHours[`${jour} ${moment}`] || [1, 0])}</Text>
                       </View>
                     </View>
                   </View>
@@ -105,7 +93,7 @@ const HoursofDay = () => {
         <View style={stylesDashboard.buttonContainer}>
           {loading ? (
             <ActivityIndicator size="large" color="#0000f" />
-              ) : (
+          ) : (
             <TouchableOpacity
               style={styles.button}
               onPress={() => post(name, startDate, frequency, uid, selectedHours, setLoading, navigation)}

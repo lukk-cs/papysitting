@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, FlatList, Button, Modal, Keyboard, ScrollView, SafeAreaView, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView, StatusBar, Alert } from 'react-native';
 import styles from '../../styles/styles';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
-import { updateUriInUserDocument, getUserData, postAdditionalUserInfo } from '../../functions/functionsDatabase';
-import stylesAddInfos from '../../styles/stylesAddInfos';
 import RNPickerSelect from 'react-native-picker-select';
-import stylesRegister from '../../styles/stylesRegister';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import stylesAddInfos from '../../styles/stylesAddInfos';
 import stylesDashboard from '../../styles/stylesDashboard';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { updateUserInfo } from '../../functions/functionsDatabase';
 
 interface IProps {}
 
@@ -17,17 +14,14 @@ const AddInfos2: React.FC<IProps> = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const { uid, presentation } = route.params;
-    const [school, setSchool] = useState('');
-    const [license, setLicense] = useState('');
-    const [interests, setInterests] = useState('');
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [birthDate, setBirthDate] = useState<string>('');
-    
-    const formatDate = (input: string) => {
-        // Supprimer tout ce qui n'est pas un chiffre
-        let cleaned = ('' + input).replace(/\D/g, '');
+    const [license, setLicense] = useState('');
+    const [school, setSchool] = useState('');
+    const [interests, setInterests] = useState('');
+    const [loading, setLoading] = useState<boolean>(false);
 
-        // Ajouter automatiquement les '/' après chaque paire de chiffres
+    const formatDate = (input: string) => {
+        let cleaned = ('' + input).replace(/\D/g, '');
         let formatted = '';
         for (let i = 0; i < cleaned.length; i++) {
             if (i === 2 || i === 4) {
@@ -35,14 +29,21 @@ const AddInfos2: React.FC<IProps> = () => {
             }
             formatted += cleaned[i];
         }
-
         return formatted;
     };
 
     const handleTextChange = (text: string) => {
         setBirthDate(formatDate(text));
     };
-    console.log(birthDate, school, license, interests)
+
+    const handleValidation = async () => {
+        await updateUserInfo(uid, birthDate, license, school, interests, setLoading);
+        if (!loading) {
+            navigation.navigate('ProfileComplete');
+        } else {
+            Alert.alert('Erreur', 'Une erreur est survenue lors de la mise à jour des informations.');
+        }
+    };
 
     return (
         <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -61,32 +62,31 @@ const AddInfos2: React.FC<IProps> = () => {
                             maxLength={10}
                         />
 
-
                         <RNPickerSelect
-                        placeholder={{label : 'As-tu le permis de conduire ?'} }
-                        style={{
-                            inputIOS: styles.Input, // for iOS
-                            inputAndroid: styles.Input, // for Android
-                        }}
-                        onValueChange={(value) => setLicense(value)}
-                        items={[
-                            { label: 'Oui', value: 'yes' },
-                            { label: 'Non', value: 'no' },
-                        ]}
-                    />
+                            placeholder={{label : 'As-tu le permis de conduire ?'} }
+                            style={{
+                                inputIOS: styles.Input,
+                                inputAndroid: styles.Input,
+                            }}
+                            onValueChange={(value) => setLicense(value)}
+                            items={[
+                                { label: 'Oui', value: 'yes' },
+                                { label: 'Non', value: 'no' },
+                            ]}
+                        />
                     
                         <TextInput
-                        style={stylesAddInfos.Input}
-                        placeholder="Ton école ou université"
-                        value={school}
-                        onChangeText={setSchool}
+                            style={stylesAddInfos.Input}
+                            placeholder="Ton école ou université"
+                            value={school}
+                            onChangeText={setSchool}
                         />
 
                         <TextInput
-                        style={stylesAddInfos.Input}
-                        placeholder="Tes centres d'intérêts"
-                        value={interests}
-                        onChangeText={setInterests}
+                            style={stylesAddInfos.Input}
+                            placeholder="Tes centres d'intérêts"
+                            value={interests}
+                            onChangeText={setInterests}
                         />
                     </View>
 
@@ -94,18 +94,17 @@ const AddInfos2: React.FC<IProps> = () => {
             </ScrollView>
           
             <View style={stylesDashboard.buttonContainer}>
-              <TouchableOpacity
-            style={[styles.button, birthDate && school && license && interests ? styles.button : stylesDashboard.buttonInactive]}
-                onPress={() => navigation.navigate('ProfileComplete')}
-                disabled={!birthDate || !school || !license || !interests}
-              >
-                <Text style={styles.loginTextButton}>Valider</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.button, birthDate && school && license && interests ? styles.button : stylesDashboard.buttonInactive]}
+                    onPress={handleValidation}
+                    disabled={!birthDate || !school || !license || !interests}
+                >
+                    <Text style={styles.loginTextButton}>Valider</Text>
+                </TouchableOpacity>
             </View>
           </SafeAreaView>
         </GestureHandlerRootView>
     );
 };
 
-
-export default AddInfos2; 
+export default AddInfos2;

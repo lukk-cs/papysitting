@@ -6,7 +6,7 @@ import Dashboard from './app/screens/HomePage/Dashboard';
 import Dashboard3 from './app/screens/Availibilities/Frequency';
 import Dashboard4 from './app/screens/Availibilities/DaysofWeek';
 import Dashboard5 from './app/screens/Availibilities/HoursofDay';
-import Dashboard6 from './app/screens/Availibilities/Success';
+import Success from './app/screens/Availibilities/Success';
 import DashboardYoung from './app/screens/Other/DashboardYoung';
 import Register from "./app/screens/Login/Register"
 import MeetingYoung from "./app/screens/Other/MeetingYoung"
@@ -33,7 +33,7 @@ import IdentityCard from './app/screens/Documents/IdentityCard';
 import Passport from './app/screens/Documents/Passport';
 import Insee from './app/screens/Documents/Insee';
 import Crime from './app/screens/Documents/Crime';
-import ProfileComplete from './app/screens/Login/ProfileComplete';
+import ProfileComplete from './app/screens/Profile/ProfileComplete';
 import RIB from './app/screens/Documents/RIB';
 import MeetingDetails from './app/screens/VisitsDetails/MeetingDetails';
 import DeleteVisit from './app/screens/VisitsDetails/DeleteVisit';
@@ -78,7 +78,7 @@ const App = () => {
             }}/>
         <Stack.Screen name="Dashboard4" component={Dashboard4} options={{ title: 'À quel moment ?', headerBackTitleVisible: false }}/>
         <Stack.Screen name="Dashboard5" component={Dashboard5} options={{ title: 'Quelle durée ?', headerBackTitleVisible: false  }}/>
-        <Stack.Screen name="Dashboard6" component={Dashboard6} options={{ title: '', headerBackTitleVisible: false  }}/>
+        <Stack.Screen name="Success" component={Success} options={{ headerShown: false }}/>
         <Stack.Screen name="PersonDetails" component={PersonDetails} options={{ title: 'Détails de la personne' , headerBackTitleVisible: false }}/>
         <Stack.Screen name="MeetingDetails" component={MeetingDetails} options={{ title: 'Détails de la visite' , headerBackTitleVisible: false }}/>
         <Stack.Screen name="DeleteVisit" component={DeleteVisit} options={{ title: '' , headerBackTitleVisible: false }}/>

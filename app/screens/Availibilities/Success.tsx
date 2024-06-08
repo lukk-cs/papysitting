@@ -13,8 +13,7 @@ import stylesContainers from '../../styles/stylesContainers';
 const Success = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const {startDate, chosenMoments, chosenHours } = route.params;
-
+  const {name, uid } = route.params;
   return (
     <SafeAreaView style={stylesContainers.safeViewContainer}>
     <StatusBar barStyle="dark-content" />
@@ -29,7 +28,7 @@ const Success = () => {
         </View>
         <View style={styles.buttonContainer}>
             <TouchableOpacity
-                onPress={() => navigation.navigate('AddInfos1', {uid: uid})}
+                onPress={() => navigation.navigate('AddInfos', {name : name, uid: uid})}
                 style={styles.button}
                 >
                 <Text style={styles.textButton}>Compléter mon profil</Text>
@@ -38,7 +37,7 @@ const Success = () => {
 
         <View style={styles.buttonContainer}>
             <TouchableOpacity
-                onPress={() => navigation.navigate('Dashboard', {startDate : startDate, chosenHours : chosenHours })}
+                onPress={() => navigation.navigate('Dashboard')}
                 style={stylesAccountCreated.buttonPass}
                 >
                 <Text style={stylesAccountCreated.textButtonPass}>Revenir à l'accueil</Text>
