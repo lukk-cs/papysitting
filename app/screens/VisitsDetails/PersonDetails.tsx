@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, SafeAreaView, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { FIREBASE_DB } from '../../../FirebaseConfig';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -13,6 +13,7 @@ import { createMatchingDoc, markOfferAsDeclined, updateAvailabilityStatus } from
 const PersonDetails = () => {
   const route = useRoute();
   const { uid_young, uid_old, firstName, lastName, address, availability, annonceId } = route.params;
+  const navigation = useNavigation();
 
   const handleDeclineOffer = () => {
     const db = FIREBASE_DB
@@ -24,6 +25,7 @@ const PersonDetails = () => {
   const handleAcceptOffer = () => {
     updateAvailabilityStatus(uid_young, annonceId, availability)
     createMatchingDoc(uid_young, uid_old, availability)
+    navigation.navigate('Dashboard')
   }
 
   const formatAvailability = (availability) => {

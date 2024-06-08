@@ -62,7 +62,7 @@ const MessagesScreen = () => {
 
             {/* Boucle sur tous les items de oldNames */}
             {oldNames.map((item, index) => (
-              <View key={index} style={stylesDocuments.itemContainer}>
+              <View key={index} style={stylesMessages.personContainer}>
                 {oldImages[index] ? (
                   <Image source={{ uri: oldImages[index] }} style={{ width: 50, height: 50, borderRadius: 25 }} />
                 ) : (

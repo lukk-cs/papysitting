@@ -95,20 +95,20 @@ const ChatPage = () => {
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
-    <FlatList
-      data={messages}
-      keyExtractor={(item, index) => index.toString()} // Utiliser l'index comme clé si vous n'avez pas d'ID unique
-      renderItem={({ item }) => (
-        <View style={{ alignItems: item.senderUid === uid_young ? 'flex-end' : 'flex-start' }}>
-          <Text style={{ backgroundColor: item.senderUid === uid_young ? 'blue' : 'gray', padding: 8, margin: 4, borderRadius: 8, color: 'white' }}>
-            {item.content}
-          </Text>
-        </View>
-      )}      
-      ListFooterComponent={<View style={{ height: 16 }} />}
-      ref={scrollViewRef}
-      onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
-    />
+      <FlatList
+        data={messages}
+        keyExtractor={(item, index) => index.toString()} // Utiliser l'index comme clé si vous n'avez pas d'ID unique
+        renderItem={({ item }) => (
+          <View style={{ alignItems: item.senderUid === uid_young ? 'flex-end' : 'flex-start', marginHorizontal : 10 }}>
+            <View style={{ backgroundColor: item.senderUid === uid_young ? '#007dfa' : '#e8e8ea', padding: 10, margin: 6, borderRadius: 12, maxWidth: '80%', }}>
+              <Text style={{ color: item.senderUid === uid_young ? 'white' : 'black' , fontFamily : 'HelveticaNeue', fontSize : 16 }}>{item.content}</Text>
+            </View>
+          </View>
+        )}      
+        ListFooterComponent={<View style={{ height: 16 }} />}
+        ref={scrollViewRef}
+        onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+      />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -116,13 +116,13 @@ const ChatPage = () => {
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, paddingBottom: 8 }}>
           <TextInput
-            style={{ flex: 1, borderWidth: 1, borderColor: 'gray', borderRadius: 8, padding: 8 }}
+            style={{ flex: 1, borderWidth: .4, borderColor: 'gray', borderRadius: 20, padding: 12 }}
             value={messageText}
             onChangeText={(text) => setMessageText(text)}
-            placeholder="Type your message here..."
+            placeholder="Message"
           />
-          <TouchableOpacity onPress={sendMessageHandler} style={{ marginLeft: 8, padding: 8, backgroundColor: 'blue', borderRadius: 8 }}>
-            <Text style={{ color: 'white' }}>Send message</Text>
+          <TouchableOpacity onPress={sendMessageHandler} style={{ marginLeft: 8, padding: 12, backgroundColor: '#007dfa', borderRadius: 16 }}>
+            <Text style={{ color: 'white', fontFamily : 'HelveticaNeue' }}>Envoyer</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

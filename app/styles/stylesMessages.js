@@ -19,6 +19,15 @@ const stylesMessages = StyleSheet.create({
         marginBottom: 10,
         textAlign: 'left',
       },
+
+      personContainer : {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: gray,
+      },
 });
 
 export default stylesMessages;

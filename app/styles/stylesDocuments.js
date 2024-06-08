@@ -50,7 +50,7 @@ const stylesDocuments = StyleSheet.create({
     button : {
         flexDirection: 'row',
         //aligner la colonne de droite à droite :
-        width: '90%',
+        width: '85%',
         height: 60,
         alignItems: "left",
         justifyContent: "center",
