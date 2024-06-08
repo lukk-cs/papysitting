@@ -19,6 +19,13 @@ const stylesDocuments = StyleSheet.create({
         textAlign: 'left',
         marginBottom: 10,
     },
+
+    notUploadedText: {
+        color: 'red',
+        fontSize: 12,
+        marginTop: 5,
+      },
+      
     container: {
         marginTop: 20,
         marginHorizontal: 20,
@@ -26,10 +33,6 @@ const stylesDocuments = StyleSheet.create({
     itemContainer : {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: gray,
-        paddingBottom: 10,
     },
     itemText: {
         color: black,

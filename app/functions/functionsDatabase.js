@@ -4,6 +4,47 @@ import { Alert } from 'react-native';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject, getMetadata, listAll } from 'firebase/storage';
 import * as ImageManipulator from 'expo-image-manipulator'
 
+const checkDocumentExistence = async (uid, documentBasePath) => {
+  const storage = FIREBASE_STORAGE;
+  const pdfRef = storageRef(storage, `${documentBasePath}.pdf`);
+  const jpgRef = storageRef(storage, `${documentBasePath}.jpg`);
+
+  try {
+    await getDownloadURL(pdfRef);
+    return true;
+  } catch (error) {
+    console.log(`PDF document ${documentBasePath}.pdf does not exist.`, error);
+  }
+
+  try {
+    await getDownloadURL(jpgRef);
+    return true;
+  } catch (error) {
+    console.log(`JPG document ${documentBasePath}.jpg does not exist.`, error);
+    return false;
+  }
+};
+
+const checkRIBExistence = async (uid) => {
+  const db = FIREBASE_DB;
+  const q = query(collection(db, 'youngs'), where("uid", "==", uid));
+  const querySnapshot = await getDocs(q);
+
+  if (!querySnapshot.empty) {
+    const userDoc = querySnapshot.docs[0].data();
+    return !!userDoc.RIB; // Return true if RIB exists
+  }
+
+  return false;
+};
+
+export const checkAllDocuments = async (uid) => {
+  const idExists = await checkDocumentExistence(uid, `user_ID/${uid}/ID`);
+  const inseeExists = await checkDocumentExistence(uid, `user_Insee/${uid}/Insee`);
+  const crimeExists = await checkDocumentExistence(uid, `user_Crime/${uid}/Crime`);
+  const RIBExists = await checkRIBExistence(uid)
+  return { idExists, inseeExists, crimeExists, RIBExists };
+};
 
 export const uploadID = async (userId, documentUri) => {
   try {
