@@ -38,6 +38,8 @@ import RIB from './app/screens/Documents/RIB';
 import MeetingDetails from './app/screens/VisitsDetails/MeetingDetails';
 import DeleteVisit from './app/screens/VisitsDetails/DeleteVisit';
 import Dashboard2 from './app/screens/Availibilities/BeginDate';
+import SeeAllSuggested from './app/screens/VisitsDetails/SeeAllSuggested';
+import SeeAllNext from './app/screens/VisitsDetails/SeeAllNext';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +53,8 @@ const App = () => {
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
         <Stack.Screen name="Register" component={Register} options={{ title: 'Créer un nouveau compte', headerBackTitleVisible: false }} />
         <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }}/>
+        <Stack.Screen name="SeeAllSuggested" component={SeeAllSuggested} options={{title:'Toutes les visites suggérées', headerBackVisible: false}}/>
+        <Stack.Screen name="SeeAllNext" component={SeeAllNext} options={{title:'Toutes les prochaines visites', headerBackVisible: false}}/>
         <Stack.Screen name="Documents" component={Documents} options={{ title: 'Charger les documents' , headerBackTitleVisible: false }}/>
         <Stack.Screen name="MyRequest" component={MyRequest} options={{ title: 'Ma demande' , headerBackTitleVisible: false }}/>
         <Stack.Screen name="Identity" component={Identity} options={{ title: 'Document d\'identité', headerBackTitleVisible: false  }}/>

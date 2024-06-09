@@ -363,8 +363,8 @@ const fetchAssociatedProfileImage = async () => {
                 {/* affiche les visites suggérées i.e. tous les vieux qui ont besoin d'une visite et qui sont proches */}
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginRight : 20, }}>
                   <Text style={styles.Subtitle2}>Visites Suggérées</Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('Meetings', { uid: uid })}>
-                    <Text style={{fontFamily: 'HelveticaNeue', color: '#a0a5a8', fontSize: 16, textDecorationLine: 'underline',}}>Voir tout</Text>
+                  <TouchableOpacity onPress={() => navigation.navigate('SeeAllSuggested', { matchingOlds: matchingOlds, uid: uid })}>
+                    <Text style={{ fontFamily: 'HelveticaNeue', color: '#a0a5a8', fontSize: 16, textDecorationLine: 'underline' }}>Voir tout</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={{marginHorizontal: 20, marginVertical: 5}}>
@@ -408,7 +408,7 @@ const fetchAssociatedProfileImage = async () => {
                   <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginRight: 20 }}>
                       <Text style={styles.Subtitle2}>Visites à venir</Text>
-                      <TouchableOpacity onPress={() => navigation.navigate('Meetings', { uid: uid })}>
+                      <TouchableOpacity onPress={() => navigation.navigate('SeeAllNext', { meetings: meetings, uid: uid })}>
                         <Text style={{ fontFamily: 'HelveticaNeue', color: '#a0a5a8', fontSize: 16, textDecorationLine: 'underline' }}>Voir tout</Text>
                       </TouchableOpacity>
                     </View>
