@@ -32,6 +32,7 @@ const checkRIBExistence = async (uid) => {
 
   if (!querySnapshot.empty) {
     const userDoc = querySnapshot.docs[0].data();
+    console.log('RIB : ', !!userDoc.RIB)
     return !!userDoc.RIB; // Return true if RIB exists
   }
 
@@ -40,8 +41,8 @@ const checkRIBExistence = async (uid) => {
 
 export const checkAllDocuments = async (uid) => {
   const idExists = await checkDocumentExistence(uid, `user_ID/${uid}/ID`);
-  const inseeExists = await checkDocumentExistence(uid, `user_Insee/${uid}/Insee`);
-  const crimeExists = await checkDocumentExistence(uid, `user_Crime/${uid}/Crime`);
+  const inseeExists = await checkDocumentExistence(uid, `user_Insee/${uid}/insee`);
+  const crimeExists = await checkDocumentExistence(uid, `user_Crime/${uid}/crime`);
   const RIBExists = await checkRIBExistence(uid)
   return { idExists, inseeExists, crimeExists, RIBExists };
 };
@@ -124,7 +125,7 @@ export const uploadInsee = async (userId, documentUri) => {
       const storage = FIREBASE_STORAGE;
 
       // Créer une référence au document dans Firebase Storage
-      const documentPath = `user_Insee/${userId}/ID.pdf`;
+      const documentPath = `user_Insee/${userId}/insee.pdf`;
       const documentRef = storageRef(storage, documentPath);
 
       // Supprimer l'ancien document (s'il existe)
@@ -230,7 +231,7 @@ export const uploadInseePhoto = async (userId, documentUri) => {
     const storage = FIREBASE_STORAGE;
 
     // Créer une référence au document dans Firebase Storage
-    const documentPath = `user_Insee/${userId}/ID.jpg`;
+    const documentPath = `user_Insee/${userId}/insee.jpg`;
     const documentRef = storageRef(storage, documentPath);
 
     // Supprimer l'ancien document (s'il existe)

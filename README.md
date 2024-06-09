@@ -4,7 +4,7 @@
 
 in order :
 
-- only display document button on homepage if one or more is missing
+x only display document button on homepage if one or more is missing (local database for improvement)
 - Pre fill the presentation and center of interest ... on the profilescreen
 - Add future and more importantly past visits on visitsscreen
 - debug ponctuals visits, watch out for the dates

@@ -142,7 +142,7 @@ const ProfileScreen = () => {
               <View style={{marginLeft: 10 }}>
                 <Ionicons name="document-outline" size={24} color="black" />
               </View>
-              <TouchableOpacity style={stylesProfile.button2} onPress={() => navigation.navigate('Identity', {uid : uid})}>
+              <TouchableOpacity style={stylesProfile.button2} onPress={() => navigation.navigate('Documents', {uid : uid})}>
                 <Text style={stylesProfile.buttonText2}>Mes documents</Text>
                 <Ionicons name="chevron-forward-outline" size={24} color="black" />
               </TouchableOpacity>

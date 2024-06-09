@@ -18,14 +18,14 @@ const Documents = () => {
     idExists: false,
     inseeExists: false,
     crimeExists: false,
-    ribExists: false,
+    RIBExists: false,
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { idExists, inseeExists, crimeExists, ribExists } = await checkAllDocuments(uid);
-        setDocumentStatus({ idExists, inseeExists, crimeExists, ribExists });
+        const { idExists, inseeExists, crimeExists, RIBExists } = await checkAllDocuments(uid);
+        setDocumentStatus({ idExists, inseeExists, crimeExists, RIBExists });
       } catch (error) {
         console.error('Error fetching document statuses:', error);
       }
@@ -63,7 +63,7 @@ const Documents = () => {
             {renderDocumentItem("Document d'identité", () => navigation.navigate('Identity', { uid }), documentStatus.idExists)}
             {renderDocumentItem("Déclaration Insee ou Kbis", () => navigation.navigate('Insee', { uid }), documentStatus.inseeExists)}
             {renderDocumentItem("Casier judiciare", () => navigation.navigate('Crime', { uid }), documentStatus.crimeExists)}
-            {renderDocumentItem("RIB", () => navigation.navigate('RIB', { uid }), documentStatus.ribExists)}
+            {renderDocumentItem("RIB", () => navigation.navigate('RIB', { uid }), documentStatus.RIBExists)}
           </View>
         </SafeAreaProvider>
       </ScrollView>

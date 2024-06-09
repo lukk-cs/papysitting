@@ -10,6 +10,7 @@ import { query, collection, where, getDocs, doc, getDoc } from 'firebase/firesto
 import { Ionicons } from '@expo/vector-icons';
 import { getUserProfileImage } from '../../functions/functionsStorage';
 import { distance, fetchMatchingOlds, filterObsoleteByDate, filterObsoleteDaysNextVisits } from '../../functions/functionsMatching';
+import { checkAllDocuments } from '../../functions/functionsDatabase';
 
 {/* carrés pour les infos, osef pour l'instant
 
@@ -38,6 +39,12 @@ const HomeScreen = () => {
   const [meetings, setMeetings] = useState([]);
   const [matchingOlds, setMatchingOlds] = useState([]);
   const [meetingsFetched, setMeetingsFetched] = useState(false);
+  const [documentStatus, setDocumentStatus] = useState({
+    idExists: false,
+    inseeExists: false,
+    crimeExists: false,
+    RIBExists: false,
+  });
 
   {/* fonction appelée à chaque rafraichissement de la page : ici on cherche la prohaine visite */}
   const onRefresh = async () => {
@@ -238,6 +245,20 @@ const fetchAssociatedProfileImage = async () => {
   
   const flattenedMeetings = flattenMeetings(meetings);
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { idExists, inseeExists, crimeExists, RIBExists } = await checkAllDocuments(uid);
+        setDocumentStatus({ idExists, inseeExists, crimeExists, RIBExists });
+      } catch (error) {
+        console.error('Error fetching document statuses:', error);
+      }
+    };
+
+    fetchData();
+  }, [uid]);
+  
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'white' }}>
       <SafeAreaView style={styles.scrollContainer}>
@@ -404,17 +425,19 @@ const fetchAssociatedProfileImage = async () => {
                     </TouchableOpacity>
                 </View>
 */}
-                <View style={{flex:1}}>
-                  <View style={stylesDasboard.subtitlesContainer}>
-                    <Text style={styles.Subtitle}>Télécharge tes pièces justificatives</Text>
+                {(!documentStatus.idExists || !documentStatus.inseeExists || !documentStatus.crimeExists || !documentStatus.RIBExists) && (
+                  <View style={{flex:1}}>
+                    <View style={stylesDasboard.subtitlesContainer}>
+                      <Text style={styles.Subtitle}>Télécharge tes pièces justificatives</Text>
+                    </View>
+                    
+                    <View style={stylesDasboard.buttonContainer}>
+                      <TouchableOpacity style={stylesDasboard.button} onPress={() => navigation.navigate('Documents', {uid : uid})}>
+                        <Text style={stylesDasboard.textWhiteButton}>Ajouter mes documents</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                  
-                  <View style={stylesDasboard.buttonContainer}>
-                    <TouchableOpacity style={stylesDasboard.button} onPress={() => navigation.navigate('Documents', {uid : uid})}>
-                      <Text style={stylesDasboard.textWhiteButton}>Ajouter mes documents</Text>
-                    </TouchableOpacity>
-                  </View>
-                  
+                )}
 {/* actualités, ne sert à rien
                   
                   <View style={{justifyContent: 'center'}}>
@@ -436,7 +459,7 @@ const fetchAssociatedProfileImage = async () => {
                     </View>
                   </View>
 */}
-                </View>
+                
               </View>
               )}
           </View>
