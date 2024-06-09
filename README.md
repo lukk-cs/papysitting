@@ -5,11 +5,11 @@
 in order :
 
 - only display document button on homepage if one or more is missing
-- Add future and more importantly past visits on visitsscreen
-- See wich parameters to keep on profilescreen
 - Pre fill the presentation and center of interest ... on the profilescreen
-- Fix bottomtab navigator warn
-- (see if not too hard to switch screens by scrolling)
-- Optimize the charging of homepage !!
+- Add future and more importantly past visits on visitsscreen
 - debug ponctuals visits, watch out for the dates
-- see with mommy rules and optimization of time
+- See wich parameters to keep on profilescreen
+- ADD LOCAL DATABASE !!
+- Optimize the charging of homepage
+- Fix bottomtab navigator warn
+-(see if not too hard to switch screens by scrolling)
