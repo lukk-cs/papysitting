@@ -1,8 +1,6 @@
-# Papysitting App
+# Papiness App
 
-Papysitting est une application permettant de connecter des jeunes et des personnes âgées pour des visites et des services d'accompagnement.
-
-## TO D0 LIST (2024-6-9) 
+## TO DO LIST (2024-6-9) 
 
 - only display the document button on the homepage if one or more is missing
 - Add future and more importantly pas visits on the visitsscreen
