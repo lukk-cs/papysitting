@@ -1,13 +1,15 @@
 # Papiness App
 
-## TO DO LIST (2024-6-9) 
+## TO DO LIST (2024-6-9)
 
-- only display the document button on the homepage if one or more is missing
-- Add future and more importantly pas visits on the visitsscreen
-- See wich parameters to keep
+in order :
+- only display document button on homepage if one or more is missing
 - Pre fill the presentation and center of interest ... on the profilescreen
-- Fix the bottomtab navigator
-- see if not too hard to switch screens by scrolling
-- Optimize the charging of the homepage !!
-- debug for the ponctuals visits, watch out for the dates
-- see with mommy the rules and optimization of time 
+- Add future and more importantly past visits on visitsscreen
+- debug ponctuals visits, watch out for the dates
+- See wich parameters to keep on profilescreen
+- ADD LOCAL DATABASE !!
+- Optimize the charging of homepage
+- Fix bottomtab navigator warn
+-(see if not too hard to switch screens by scrolling)
+- see with mommy rules and optimization of time
