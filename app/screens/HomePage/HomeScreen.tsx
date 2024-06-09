@@ -128,50 +128,6 @@ const HomeScreen = () => {
   }, [uid]);
 
 
-
-  const formatAvailability = (availability) => {
-    let formattedAvailability = '';
-    // Définir l'ordre des jours de la semaine
-    const daysOrder = ['Lundi matin', 'Lundi midi', 'Lundi a-m', 'Lundi soir',
-                      'Mardi matin', 'Mardi midi', 'Mardi a-m', 'Mardi soir',
-                      'Mercredi matin', 'Mercredi midi', 'Mercredi a-m', 'Mercredi soir',
-                      'Jeudi matin', 'Jeudi midi', 'Jeudi a-m', 'Jeudi soir',
-                      'Vendredi matin', 'Vendredi midi', 'Vendredi a-m', 'Vendredi soir',
-                      'Samedi matin', 'Samedi midi', 'Samedi a-m', 'Samedi soir',
-                      'Dimanche matin', 'Dimanche midi', 'Dimanche a-m', 'Dimanche soir'];
-    // Trier les jours de la semaine selon l'ordre défini
-    const sortedDays = Object.keys(availability).sort((a, b) => {
-      return daysOrder.indexOf(a) - daysOrder.indexOf(b);
-    });
-    // Construire la chaîne de caractères formatée
-    sortedDays.forEach(day => {
-      const hour = availability[day][0]; // différence entre formatAvailability et formatAvailability2, c'est juste qu'on l'applique pas aux memes dictionnaires
-      formattedAvailability += `${day} : ${hour}h, `;
-    });
-    return formattedAvailability;
-  };
-
-  const formatAvailability2 = (availability) => {
-    let formattedAvailability = '';
-    // Définir l'ordre des jours de la semaine
-    const daysOrder = ['Lundi matin', 'Lundi midi', 'Lundi a-m', 'Lundi soir',
-                      'Mardi matin', 'Mardi midi', 'Mardi a-m', 'Mardi soir',
-                      'Mercredi matin', 'Mercredi midi', 'Mercredi a-m', 'Mercredi soir',
-                      'Jeudi matin', 'Jeudi midi', 'Jeudi a-m', 'Jeudi soir',
-                      'Vendredi matin', 'Vendredi midi', 'Vendredi a-m', 'Vendredi soir',
-                      'Samedi matin', 'Samedi midi', 'Samedi a-m', 'Samedi soir',
-                      'Dimanche matin', 'Dimanche midi', 'Dimanche a-m', 'Dimanche soir'];    // Trier les jours de la semaine selon l'ordre défini
-    const sortedDays = Object.keys(availability).sort((a, b) => {
-      return daysOrder.indexOf(a) - daysOrder.indexOf(b);
-    });
-    // Construire la chaîne de caractères formatée
-    sortedDays.forEach(day => {
-      const hour = availability[day];
-      formattedAvailability += `${day} : ${hour}h\n`;
-    });
-    return formattedAvailability;
-  };
-  
   const getCurrentDayOrder = () => {
     const currentDate = new Date();
     const currentDay = currentDate.getDay();

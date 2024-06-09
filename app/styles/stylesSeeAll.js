@@ -13,7 +13,6 @@ const blue = '#0D3B66'
 const stylesAccountCreated = StyleSheet.create({
     squareSuggestions: {
         width: '90%',
-        height: 100,
         backgroundColor: 'white',
         borderRadius: 20,
         marginHorizontal: 20,
