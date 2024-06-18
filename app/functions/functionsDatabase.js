@@ -429,6 +429,34 @@ export const updatePresentation = async (uid, presentation, setLoading) => {
   }
 };
 
+export const getPresentation = async (uid) => {
+  const db = FIREBASE_DB;
+  try {
+      const youngsCollectionRef = collection(db, 'youngs');
+      const q = query(youngsCollectionRef, where("uid", "==", uid));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+          console.error("No matching document found");
+          return null;
+      }
+
+      const docId = querySnapshot.docs[0].id;
+      const userDocRef = doc(db, 'youngs', docId);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+          return userDoc.data().presentation;
+      } else {
+          console.error("No such document!");
+          return null;
+      }
+  } catch (error) {
+      console.error("Error getting document:", error);
+      return null;
+  }
+};
+
 export const updateUserInfo = async (uid, birthDate, license, school, interests, setLoading) => {
   const db = FIREBASE_DB;
   setLoading(true);
@@ -460,4 +488,33 @@ export const updateUserInfo = async (uid, birthDate, license, school, interests,
   } finally {
       setLoading(false);
   }
+};
+
+
+export const getUserInfo = async (uid) => {
+    const db = FIREBASE_DB;
+    try {
+        const youngsCollectionRef = collection(db, 'youngs');
+        const q = query(youngsCollectionRef, where("uid", "==", uid));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            console.error("No matching document found");
+            return null;
+        }
+
+        const docId = querySnapshot.docs[0].id;
+        const userDocRef = doc(db, 'youngs', docId);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+            return userDoc.data();
+        } else {
+            console.error("No such document!");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error getting document:", error);
+        return null;
+    }
 };

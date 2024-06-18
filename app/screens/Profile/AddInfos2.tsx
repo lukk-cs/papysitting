@@ -6,7 +6,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import stylesAddInfos from '../../styles/stylesAddInfos';
 import stylesDashboard from '../../styles/stylesDashboard';
-import { updateUserInfo } from '../../functions/functionsDatabase';
+import { updateUserInfo, getUserInfo } from '../../functions/functionsDatabase';
 
 interface IProps {}
 
@@ -19,6 +19,20 @@ const AddInfos2: React.FC<IProps> = () => {
     const [school, setSchool] = useState('');
     const [interests, setInterests] = useState('');
     const [loading, setLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            const userInfo = await getUserInfo(uid);
+            if (userInfo) {
+                setBirthDate(userInfo.birthDate || '');
+                setLicense(userInfo.license || '');
+                setSchool(userInfo.school || '');
+                setInterests(userInfo.interests || '');
+            }
+        };
+
+        fetchUserInfo();
+    }, []);
 
     const formatDate = (input: string) => {
         let cleaned = ('' + input).replace(/\D/g, '');
@@ -69,6 +83,7 @@ const AddInfos2: React.FC<IProps> = () => {
                                 inputAndroid: styles.Input,
                             }}
                             onValueChange={(value) => setLicense(value)}
+                            value={license}
                             items={[
                                 { label: 'Oui', value: 'yes' },
                                 { label: 'Non', value: 'no' },

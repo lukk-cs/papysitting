@@ -11,6 +11,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { getUserProfileImage } from '../../functions/functionsStorage';
 import { distance, fetchMatchingOlds, filterObsoleteByDate, filterObsoleteDaysNextVisits } from '../../functions/functionsMatching';
 import { checkAllDocuments } from '../../functions/functionsDatabase';
+import { saveDataToRealtimeDB, getDataFromRealtimeDB } from '../../functions/functionsRealTImeDB';
+import { writeUserData } from '../../functions/functionsRealTImeDB';
 
 {/* carrés pour les infos, osef pour l'instant
 
@@ -67,6 +69,7 @@ const HomeScreen = () => {
       setMatchingOlds,
       setLoading
     );
+    //await saveDataToRealtimeDB(`matchingOlds/${uid}`, matchingOlds); // Save to Realtime Database
     setLoading(false);
   };
 
@@ -258,6 +261,8 @@ const fetchAssociatedProfileImage = async () => {
 
     fetchData();
   }, [uid]);
+  
+  // writeUserData(uid, userName)
   
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'white' }}>

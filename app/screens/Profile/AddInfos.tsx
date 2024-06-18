@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Keyboard, SafeAreaView, StatusBar, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import { updatePresentation, uploadProfilePicture } from '../../functions/functionsDatabase';
+import { updatePresentation, getPresentation, uploadProfilePicture } from '../../functions/functionsDatabase';
 import stylesAddInfos from '../../styles/stylesAddInfos';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import stylesContainers from '../../styles/stylesContainers';
@@ -19,7 +19,7 @@ const AddInfos: React.FC<IProps> = () => {
     const { name, uid } = route.params;
     const [presentationText, setPresentationText] = useState('');
     const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
-    const [isEditingPhoto, setIsEditingPhoto] = useState<boolean>(false); // Ajout de l'état pour savoir si l'utilisateur est en train d'éditer la photo
+    const [isEditingPhoto, setIsEditingPhoto] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -27,11 +27,19 @@ const AddInfos: React.FC<IProps> = () => {
             const imageUrl = await getUserProfileImage(uid);
             if (imageUrl) {
                 setProfileImageUrl(imageUrl);
-                setIsEditingPhoto(true); // Set isEditingPhoto to true if there is a profile image
+                setIsEditingPhoto(true);
+            }
+        };
+
+        const fetchPresentation = async () => {
+            const presentation = await getPresentation(uid);
+            if (presentation) {
+                setPresentationText(presentation);
             }
         };
 
         fetchProfileImage();
+        fetchPresentation();
     }, []);
 
     const pickImage = async () => {
@@ -61,7 +69,7 @@ const AddInfos: React.FC<IProps> = () => {
         await updatePresentation(uid, presentationText, setLoading);
         navigation.navigate('AddInfos2', { uid: uid, presentation: presentationText });
     };
-    
+
     return (
         <SafeAreaView style={stylesContainers.safeViewContainer}>
             <StatusBar barStyle="dark-content" />
@@ -113,7 +121,7 @@ const AddInfos: React.FC<IProps> = () => {
             </KeyboardAwareScrollView>
             <View style={styles.buttonContainer}>
                 {loading ? (
-                <ActivityIndicator size="large" color="#0000f" />
+                    <ActivityIndicator size="large" color="#0000f" />
                 ) : (
                     <TouchableOpacity style={styles.button} onPress={handleValidation}> 
                         <Text style={styles.textBlueButton}>Valider</Text>

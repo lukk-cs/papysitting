@@ -40,6 +40,7 @@ import DeleteVisit from './app/screens/VisitsDetails/DeleteVisit';
 import Dashboard2 from './app/screens/Availibilities/BeginDate';
 import SeeAllSuggested from './app/screens/VisitsDetails/SeeAllSuggested';
 import SeeAllNext from './app/screens/VisitsDetails/SeeAllNext';
+import PersonalInfos from './app/screens/Profile/PersonalInfos';
 
 const Stack = createNativeStackNavigator();
 
@@ -88,6 +89,7 @@ const App = () => {
         <Stack.Screen name="DeleteVisit" component={DeleteVisit} options={{ title: '' , headerBackTitleVisible: false }}/>
         <Stack.Screen name="AddInfos" component={AddInfos} options={{ title: 'Compléter mon profil' , headerBackTitleVisible: false }}/>
         <Stack.Screen name="AddInfos2" component={AddInfos2} options={{ title: 'Informations supplémentaires' , headerBackTitleVisible: false }}/>
+        <Stack.Screen name="PersonalInfos" component={PersonalInfos} options={{ title: 'Informations personnelles' , headerBackTitleVisible: false }}/>
         <Stack.Screen name="ProfileComplete" component={ProfileComplete} options={{ headerShown: false }}/>
         <Stack.Screen name="DashboardYoung" component={DashboardYoung} />
         <Stack.Screen name="MeetingOld" component={MeetingOld} />
